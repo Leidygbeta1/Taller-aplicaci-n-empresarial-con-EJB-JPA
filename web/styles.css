@@ -43,13 +43,27 @@ label {
     color: #555;
 }
 
-input[type="text"], input[type="number"], input[type="submit"] {
+/* Estilos para los inputs */
+input[type="text"], input[type="number"], input[type="submit"], select {
     padding: 8px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     width: 100%;
     box-sizing: border-box;
+}
+
+/* Spinner personalizado */
+select {
+    appearance: none;
+    background-color: #fff;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+select:focus {
+    border-color: #4CAF50;
+    outline: none;
 }
 
 input[type="submit"] {
@@ -86,6 +100,10 @@ tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
+tr:hover {
+    background-color: #f1f1f1;
+}
+
 /* Enlaces */
 a {
     text-decoration: none;
@@ -116,3 +134,16 @@ a:hover {
     background-color: #333;
     color: #fff;
 }
+
+/* Personalización de spinner */
+select::-ms-expand {
+    display: none;
+}
+
+select {
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="%23999"><polygon points="0,0 20,0 10,10"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 30px;
+}
+

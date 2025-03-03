@@ -11,7 +11,6 @@ import com.leidy.model.Curso;
 import com.leidy.model.Estudiante;
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,6 +40,9 @@ public class CursoServlet extends HttpServlet {
                 case "eliminar":
                     eliminarCurso(request, response);
                     break;
+                case "editar":
+                    editarCurso(request, response);
+                    break;
                 default:
                     listarCursos(request, response);
                     break;
@@ -53,6 +55,29 @@ public class CursoServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        String accion = request.getParameter("accion");
+
+        if (accion != null) {
+            switch (accion) {
+                case "guardar":
+                    guardarCurso(request, response);
+                    break;
+                case "actualizar":
+                    actualizarCurso(request, response);
+                    break;
+                default:
+                    listarCursos(request, response);
+                    break;
+            }
+        } else {
+            listarCursos(request, response);
+        }
+    }
+
+    private void guardarCurso(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
         String nombreCurso = request.getParameter("nombreCurso");
         int numeroCreditos = Integer.parseInt(request.getParameter("numeroCreditos"));
         int semestre = Integer.parseInt(request.getParameter("semestre"));
@@ -65,7 +90,6 @@ public class CursoServlet extends HttpServlet {
         curso.setNumeroEstudiantesAdmitidos(numeroEstudiantesAdmitidos);
 
         cursoDao.insertar(curso);
-
         response.sendRedirect("CursoServlet?accion=listar");
     }
 
@@ -86,9 +110,30 @@ public class CursoServlet extends HttpServlet {
         response.sendRedirect("CursoServlet?accion=listar");
     }
 
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    private void editarCurso(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Long codigoCurso = Long.parseLong(request.getParameter("codigoCurso"));
+        Curso curso = cursoDao.encontrarPorId(codigoCurso);
+        request.setAttribute("curso", curso);
+        listarCursos(request, response);
+    }
 
+    private void actualizarCurso(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        Long codigoCurso = Long.parseLong(request.getParameter("codigoCurso"));
+        Curso curso = cursoDao.encontrarPorId(codigoCurso);
+
+        if (curso != null) {
+            curso.setNombreCurso(request.getParameter("nombreCurso"));
+            curso.setNumeroCreditos(Integer.parseInt(request.getParameter("numeroCreditos")));
+            curso.setSemestre(Integer.parseInt(request.getParameter("semestre")));
+            curso.setNumeroEstudiantesAdmitidos(Integer.parseInt(request.getParameter("numeroEstudiantesAdmitidos")));
+            cursoDao.actualizar(curso);
+        }
+
+        response.sendRedirect("CursoServlet?accion=listar");
+    }
 }
+
+

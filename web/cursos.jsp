@@ -15,17 +15,24 @@
 <body>
 
 <div class="container">
-    <h2>Agregar Curso</h2>
+    <h2>${empty curso ? 'Agregar Curso' : 'Editar Curso'}</h2>
     <form action="CursoServlet" method="post">
+        <input type="hidden" name="accion" value="${empty curso ? 'guardar' : 'actualizar'}">
+        <input type="hidden" name="codigoCurso" value="${not empty curso ? curso.codigoCurso : ''}">
+
         <label>Nombre del Curso:</label>
-        <input type="text" name="nombreCurso" required>
+        <input type="text" name="nombreCurso" value="${not empty curso ? curso.nombreCurso : ''}" required>
+
         <label>Número de Créditos:</label>
-        <input type="number" name="numeroCreditos" required>
+        <input type="number" name="numeroCreditos" value="${not empty curso ? curso.numeroCreditos : ''}" required>
+
         <label>Semestre:</label>
-        <input type="number" name="semestre" required>
+        <input type="number" name="semestre" value="${not empty curso ? curso.semestre : ''}" required>
+
         <label>Número de Estudiantes Admitidos:</label>
-        <input type="number" name="numeroEstudiantesAdmitidos" required>
-        <input type="submit" value="Guardar">
+        <input type="number" name="numeroEstudiantesAdmitidos" value="${not empty curso ? curso.numeroEstudiantesAdmitidos : ''}" required>
+
+        <input type="submit" value="${empty curso ? 'Guardar' : 'Actualizar'}">
     </form>
 
     <h2>Lista de Cursos</h2>
@@ -45,7 +52,10 @@
                 <td>${curso.numeroCreditos}</td>
                 <td>${curso.semestre}</td>
                 <td>${curso.numeroEstudiantesAdmitidos}</td>
-                <td><a href="CursoServlet?accion=eliminar&codigoCurso=${curso.codigoCurso}">Eliminar</a></td>
+                <td>
+                    <a href="CursoServlet?accion=editar&codigoCurso=${curso.codigoCurso}">Editar</a> |
+                    <a href="CursoServlet?accion=eliminar&codigoCurso=${curso.codigoCurso}">Eliminar</a>
+                </td>
             </tr>
         </c:forEach>
     </table>

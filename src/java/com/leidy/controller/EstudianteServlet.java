@@ -42,6 +42,12 @@ public class EstudianteServlet extends HttpServlet {
                 case "eliminar":
                     eliminarEstudiante(request, response);
                     break;
+                case "editar":
+                    Long idEstudiante = Long.parseLong(request.getParameter("idEstudiante"));
+                    Estudiante estudiante = estudianteDao.encontrarPorId(idEstudiante);
+                    request.setAttribute("estudiante", estudiante);
+                    listarEstudiantes(request, response); // Mantener en la misma página
+                    break;
                 default:
                     listarEstudiantes(request, response);
                     break;
@@ -54,27 +60,45 @@ public class EstudianteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String nombre = request.getParameter("nombre");
-        String apellido = request.getParameter("apellido");
-        String[] cursosSeleccionados = request.getParameterValues("cursos");
+        String accion = request.getParameter("accion");
 
-        Estudiante estudiante = new Estudiante();
-        estudiante.setNombre(nombre);
-        estudiante.setApellido(apellido);
+        if ("actualizar".equals(accion)) {
+            Long idEstudiante = Long.parseLong(request.getParameter("idEstudiante"));
+            Estudiante estudiante = estudianteDao.encontrarPorId(idEstudiante);
+            estudiante.setNombre(request.getParameter("nombre"));
+            estudiante.setApellido(request.getParameter("apellido"));
 
-        // Asignar cursos seleccionados al estudiante
-        Set<Curso> cursos = new HashSet<>();
-        if (cursosSeleccionados != null) {
-            for (String codigoCurso : cursosSeleccionados) {
-                Curso curso = cursoDao.encontrarPorId(Long.parseLong(codigoCurso));
-                if (curso != null) {
+            String[] cursosSeleccionados = request.getParameterValues("cursos");
+            Set<Curso> cursos = new HashSet<>();
+            if (cursosSeleccionados != null) {
+                for (String codigoCurso : cursosSeleccionados) {
+                    Curso curso = cursoDao.encontrarPorId(Long.parseLong(codigoCurso));
                     cursos.add(curso);
                 }
             }
-        }
-        estudiante.setCursos(cursos);
+            estudiante.setCursos(cursos);
+            estudianteDao.actualizar(estudiante);
 
-        estudianteDao.insertar(estudiante);
+        } else {
+            // Inserción de un nuevo estudiante
+            String nombre = request.getParameter("nombre");
+            String apellido = request.getParameter("apellido");
+            String[] cursosSeleccionados = request.getParameterValues("cursos");
+
+            Estudiante estudiante = new Estudiante();
+            estudiante.setNombre(nombre);
+            estudiante.setApellido(apellido);
+
+            Set<Curso> cursos = new HashSet<>();
+            if (cursosSeleccionados != null) {
+                for (String codigoCurso : cursosSeleccionados) {
+                    Curso curso = cursoDao.encontrarPorId(Long.parseLong(codigoCurso));
+                    cursos.add(curso);
+                }
+            }
+            estudiante.setCursos(cursos);
+            estudianteDao.insertar(estudiante);
+        }
         response.sendRedirect("EstudianteServlet?accion=listar");
     }
 
@@ -96,10 +120,4 @@ public class EstudianteServlet extends HttpServlet {
         }
         response.sendRedirect("EstudianteServlet?accion=listar");
     }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

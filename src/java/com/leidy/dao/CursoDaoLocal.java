@@ -9,15 +9,25 @@ import com.leidy.model.Curso;
 import java.util.List;
 import javax.ejb.Local;
 
-/**
- *
- * @author LEIDY GIRALDO
- */
 @Local
 public interface CursoDaoLocal {
+
+    // Insertar Curso
     void insertar(Curso curso);
+
+    // Actualizar Curso
     void actualizar(Curso curso);
+
+    // Eliminar Curso
     void eliminar(Curso curso);
+
+    // Encontrar Curso por ID
     Curso encontrarPorId(Long codigoCurso);
+
+    // Buscar Curso por Nombre
+    List<Curso> buscarPorNombre(String nombre);
+
+    // Listar Todos los Cursos
     List<Curso> listarTodos();
 }
+

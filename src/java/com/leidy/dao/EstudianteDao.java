@@ -5,10 +5,6 @@
  */
 package com.leidy.dao;
 
-
-
-
-
 import com.leidy.model.Estudiante;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -22,26 +18,39 @@ public class EstudianteDao implements EstudianteDaoLocal {
     @PersistenceContext(unitName = "TallerWebPU")
     private EntityManager em;
 
+    // Insertar Estudiante
     @Override
     public void insertar(Estudiante estudiante) {
         em.persist(estudiante);
     }
 
+    // Actualizar Estudiante
     @Override
     public void actualizar(Estudiante estudiante) {
         em.merge(estudiante);
     }
 
+    // Eliminar Estudiante
     @Override
     public void eliminar(Estudiante estudiante) {
         em.remove(em.merge(estudiante));
     }
 
+    // Encontrar Estudiante por ID
     @Override
     public Estudiante encontrarPorId(Long idEstudiante) {
         return em.find(Estudiante.class, idEstudiante);
     }
 
+    // Buscar Estudiante por Nombre
+    @Override
+    public List<Estudiante> buscarPorNombre(String nombre) {
+        TypedQuery<Estudiante> query = em.createQuery("SELECT e FROM Estudiante e WHERE e.nombre LIKE :nombre", Estudiante.class);
+        query.setParameter("nombre", "%" + nombre + "%");
+        return query.getResultList();
+    }
+
+    // Listar Todos los Estudiantes
     @Override
     public List<Estudiante> listarTodos() {
         TypedQuery<Estudiante> query = em.createQuery("SELECT e FROM Estudiante e", Estudiante.class);
