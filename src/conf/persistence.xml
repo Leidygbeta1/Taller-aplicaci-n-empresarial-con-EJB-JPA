@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="TallerWebPU" transaction-type="JTA">
+    <jta-data-source>jdbc/taller</jta-data-source>
+
+    <!-- Agregar las entidades -->
+    <class>com.leidy.model.Curso</class>
+    <class>com.leidy.model.Estudiante</class>
+
+    <!-- Configuración para mostrar las consultas SQL en consola y crear tablas automáticamente -->
+    <properties>
+      <property name="eclipselink.logging.level" value="FINE"/>
+      <property name="eclipselink.logging.level.sql" value="FINE"/>
+      <property name="eclipselink.ddl-generation" value="create-tables"/>
+    </properties>
+  </persistence-unit>
+</persistence>
