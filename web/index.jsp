@@ -10,15 +10,19 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Inicio - Gestión Académica</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
 
-<h2>Bienvenido a la Gestión Académica</h2>
-<ul>
-    <li><a href="CursoServlet?accion=listar">Gestionar Cursos</a></li>
-    <li><a href="EstudianteServlet?accion=listar">Gestionar Estudiantes</a></li>
-</ul>
+<div class="container">
+    <h2>Bienvenido a la Gestión Académica</h2>
+    <ul>
+        <li><a href="CursoServlet?accion=listar">Gestionar Cursos</a></li>
+        <li><a href="EstudianteServlet?accion=listar">Gestionar Estudiantes</a></li>
+    </ul>
+</div>
 
 </body>
 </html>
+
 
