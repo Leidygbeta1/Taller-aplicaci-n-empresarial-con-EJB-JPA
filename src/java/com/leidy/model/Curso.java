@@ -32,8 +32,9 @@ public class Curso {
     @Column(name = "numero_estudiantes_admitidos", nullable = false)
     private int numeroEstudiantesAdmitidos;
 
-    @ManyToMany(mappedBy = "cursos")
-    private Set<Estudiante> estudiantes = new HashSet<>();
+@ManyToMany(mappedBy = "cursos", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+private Set<Estudiante> estudiantes = new HashSet<>();
+
 
     // Getters y Setters
 

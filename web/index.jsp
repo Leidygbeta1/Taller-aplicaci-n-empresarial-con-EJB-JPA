@@ -16,13 +16,15 @@
 
 <div class="container">
     <h2>Bienvenido a la Gestión Académica</h2>
-    <ul>
-        <li><a href="CursoServlet?accion=listar">Gestionar Cursos</a></li>
-        <li><a href="EstudianteServlet?accion=listar">Gestionar Estudiantes</a></li>
+    <ul class="menu">
+        <li><a href="CursoServlet?accion=listar" class="btn-link">Gestionar Cursos</a></li>
+        <li><a href="EstudianteServlet?accion=listar" class="btn-link">Gestionar Estudiantes</a></li>
+        <li><a href="AsignarCursoServlet?accion=listar" class="btn-link">Asignar Cursos a Estudiantes</a></li>
     </ul>
 </div>
 
 </body>
 </html>
+
 
 

@@ -25,13 +25,14 @@ public class Estudiante {
     @Column(name = "apellido", nullable = false)
     private String apellido;
 
-    @ManyToMany
-    @JoinTable(
-        name = "estudiantes_cursos",
-        joinColumns = @JoinColumn(name = "id_estudiante"),
-        inverseJoinColumns = @JoinColumn(name = "codigo_curso")
-    )
-    private Set<Curso> cursos = new HashSet<>();
+@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+@JoinTable(
+    name = "estudiantes_cursos",
+    joinColumns = @JoinColumn(name = "id_estudiante"),
+    inverseJoinColumns = @JoinColumn(name = "codigo_curso")
+)
+private Set<Curso> cursos = new HashSet<>();
+
 
     // Getters y Setters
 

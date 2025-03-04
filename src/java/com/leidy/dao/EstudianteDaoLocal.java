@@ -29,5 +29,11 @@ public interface EstudianteDaoLocal {
 
     // Listar Todos los Estudiantes
     List<Estudiante> listarTodos();
+
+    void flush();
+    void eliminarCursoDeEstudiante(Long idEstudiante, Long idCurso);
+    void clear();  // Para limpiar el caché
+
+
 }
 
